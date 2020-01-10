@@ -7,7 +7,7 @@ const expressHbs = require('express-handlebars');
 
 
 //own libs
-const config = require('./config/config');
+const config = require('./config');
 
 let app = express();
 

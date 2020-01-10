@@ -1,17 +1,17 @@
 const settings = {
     db: {
         mongoose:{
-            name: 'somebodyShop',
+            name: 'messenger',
             url : 'mongodb://localhost:27017/',
         },
         mysql:{
             name: '',
             url : '',
-        },     
+        },
     },
     app: {
         port: 3000,
-        name: 'somebody',
+        name: 'freeMessenger',
     },
     cookie: {
         secret: '34Jmf7*8kL;>G',

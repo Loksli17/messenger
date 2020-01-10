@@ -1,6 +1,6 @@
-const User     = require('../models/user');
-const config   = require('../config/config');
-const mongoose = require("../lib/db/mongoose");
+const User     = require('../models/UserModel');
+const config   = require('../config');
+const mongoose = require("../lib/database/mongoose");
 const async    = require('async');
 const crypto   = require('crypto');
 

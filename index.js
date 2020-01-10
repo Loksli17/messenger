@@ -17,7 +17,14 @@ let app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookie(config.cookie.secret));
-app.use(session({secret: config.session.secret}));
+app.use(
+    session({
+        secret: config.session.secret,
+        cookie: {
+            maxAge: 24 * 60 * 60 * 1000,
+        }
+    })
+);
 app.use(require('csurf')());
 
 //handlebars
@@ -34,8 +41,8 @@ hbs.registerHelper('getLogin', function(){
 
 //locals
 app.use(function(req, res, next){
-    if(req.cookies.userIndentity != undefined){
-        res.locals.user = req.cookies.userIndentity;
+    if(req.session.userIndentity != undefined){
+        res.locals.user = req.session.userIndentity;
     }
     res.locals._csrfToken = req.csrfToken();
     next();

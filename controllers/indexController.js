@@ -8,5 +8,7 @@ exports.actionIndex = async function(req, res){
 
     users = await UserModel.find({});
 
-    res.send(users[0]);
+    console.log(res.locals.user);
+    res.send(users);
+
 };

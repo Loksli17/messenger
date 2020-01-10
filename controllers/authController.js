@@ -1,5 +1,7 @@
 exports.actionLogin = function(req, res){
-    res.send('login');
+    res.render('auth/login', {
+        
+    });
 };
 
 exports.actionSignup = function(req, res){

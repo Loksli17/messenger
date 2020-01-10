@@ -3,6 +3,7 @@ const hbs        = require('hbs');
 const bodyParser = require('body-parser');
 const cookie     = require('cookie-parser');
 const async      = require('async');
+const session    = require('express-session');
 const expressHbs = require('express-handlebars');
 
 
@@ -16,7 +17,8 @@ let app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookie(config.cookie.secret));
-
+app.use(session({secret: config.session.secret}));
+app.use(require('csurf')());
 
 //handlebars
 app.engine('hbs', expressHbs({
@@ -30,6 +32,14 @@ hbs.registerHelper('getLogin', function(){
     return "Логин";
 });
 
+//locals
+app.use(function(req, res, next){
+    if(req.cookies.userIndentity != undefined){
+        res.locals.user = req.cookies.userIndentity;
+    }
+    res.locals._csrfToken = req.csrfToken();
+    next();
+});
 
 //settings
 app.set('port', process.env.PORT || config.app.port);

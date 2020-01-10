@@ -58,13 +58,21 @@ app.use('/auth', authRouter);
 //soft
 app.use(function(req, res){
     res.status(404);
-    res.render('server/404', {layout: null});
+    res.render('server/error', {
+        layout: null,
+        err    : 404,
+        messege: "Page not found",
+    });
 });
 
 app.use(function(err, req, res, next){
     console.error(err.stack);
     res.status(500);
-    res.render('server/500', {layout: null});
+    res.render('server/error', {
+        layout : null,
+        err    : 500,
+        messege: "Iternal Server Error",
+    });
 });
 
 

@@ -1,6 +1,8 @@
 exports.actionLogin = function(req, res){
+    const {email, password} = req.body;
+    console.log(email, password);
     res.render('auth/login', {
-        
+
     });
 };
 

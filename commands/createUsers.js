@@ -17,6 +17,8 @@ let query = async () => {
                                 },
                                 email: 'ami0504@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
+                                series: '',
+                                token: '',
                             });
                             user.save(function(err){
                                 if(err){
@@ -34,6 +36,8 @@ let query = async () => {
                                 },
                                 email: 'ami0505@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('1234').digest('hex'),
+                                series: '',
+                                token: '',
                             });
 
                             user.save(function(err){
@@ -52,6 +56,8 @@ let query = async () => {
                                 },
                                 email: 'ami0506@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
+                                series: '',
+                                token: '',
                             });
 
                             user.save(function(err){
@@ -70,6 +76,8 @@ let query = async () => {
                                 },
                                 email: 'ami0507@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
+                                series: '',
+                                token: '',
                             });
 
                             user.save(function(err){
@@ -88,6 +96,8 @@ let query = async () => {
                                 },
                                 email: 'ami0508@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
+                                series: '',
+                                token: '',
                             });
 
                             user.save(function(err){
@@ -106,6 +116,8 @@ let query = async () => {
                                 },
                                 email: 'ami0509@mail.ru',
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
+                                series: '',
+                                token: '',
                             });
 
                             user.save(function(err){

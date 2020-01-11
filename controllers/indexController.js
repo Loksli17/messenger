@@ -8,7 +8,7 @@ exports.actionIndex = async function(req, res){
 
     users = await UserModel.find({});
 
-    console.log(res.locals.user);
+    console.log(res.locals.user, req.cookies.authToken);
     res.send(users);
 
 };

@@ -15,7 +15,7 @@ exports.actionLogin = async (req, res) => {
 
     let post = req.body,
         user = {};
-    const {email, password} = post;
+    const {email, password, rememberMe} = post;
 
     //проверка пришли ли данные
     if(JSON.stringify(post) == "{}"){
@@ -46,12 +46,45 @@ exports.actionLogin = async (req, res) => {
         });
         return;
     }
-    req.session.userIndentity = user;
-    console.log(req.session.userIndentity);
-    res.redirect('/');
 
+    //запомнить меня
+    if(rememberMe != undefined){
+        let token = Math.round((new Date().valueOf() * Math.random())) + '',
+            series = Math.round((new Date().valueOf() * Math.random())) + '';
+
+        res.cookie(
+            'authToken',
+            {
+                id    : user._id,
+                token : token,
+                series: series
+            },
+            {
+                expires: new Date(Date.now() + 2 * 604800000),
+            }
+         );
+
+         user.token = token;
+         user.series = series;
+         console.log(user);
+
+         await UserModel.updateOne({_id: user.id}, user);
+    }else{
+        user.token = '';
+        user.series = '';
+        await UserModel.updateOne({_id: user.id}, user);
+    }
+
+    req.session.userIndentity = user;
+    res.redirect('/');
 };
 
-exports.actionSignup = function(req, res){
+exports.actionLogout = (req, res) => {
+    delete req.session.userIndentity;
+    res.clearCookie('authToken');
+    res.redirect('/auth/login');
+}
+
+exports.actionSignup = (req, res) => {
     res.send('singup');
 }

@@ -48,6 +48,29 @@ app.use(function(req, res, next){
     next();
 });
 
+//ПРОВЕРИТЬ
+app.use(async function(req, res, next){
+    if(req.cookies.authToken != undefined && req.session.userIndentity == undefined){
+
+        let UserModel = require('./models/UserModel');
+        let user = await UserModel.findById(req.cookies.authToken.id);
+        if(user.series == req.cookies.authToken.series && user.token == req.cookies.authToken.token){
+
+            let token = Math.round((new Date().valueOf() * Math.random())) + '',
+                series = Math.round((new Date().valueOf() * Math.random())) + '';
+
+            user.token = token;
+            user.series = series;
+
+            console.log(user);
+
+            await UserModel.updateOne({_id: user.id}, user);
+            req.session.userIndentity = user;
+        }
+    }
+    next();
+});
+
 //settings
 app.set('port', process.env.PORT || config.app.port);
 

@@ -20,9 +20,15 @@ let userSchema = mongoose.Schema({
         type    : String,
         required: true,
     },
+    series: {
+        type: String,
+    },
+    token: {
+        type: String,
+    }
 });
 
-userSchema.methods.getFullName = function(){
+userSchema.methods.getFullName = () => {
     return this.name.firstName + ' ' + this.name.secondName;
 };
 

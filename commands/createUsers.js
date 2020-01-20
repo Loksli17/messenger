@@ -20,6 +20,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
                             user.save(function(err){
                                 if(err){
@@ -40,6 +41,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('1234').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
 
                             user.save(function(err){
@@ -61,6 +63,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
 
                             user.save(function(err){
@@ -82,6 +85,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
 
                             user.save(function(err){
@@ -103,6 +107,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
 
                             user.save(function(err){
@@ -124,6 +129,7 @@ let query = async () => {
                                 pass: crypto.createHash('sha256', config.user.passSecret).update('123').digest('hex'),
                                 series: '',
                                 token: '',
+                                img: 'test.png',
                             });
 
                             user.save(function(err){

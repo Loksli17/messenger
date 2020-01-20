@@ -28,6 +28,9 @@ let userSchema = mongoose.Schema({
     },
     token: {
         type: String,
+    },
+    img: {
+        type: String,
     }
 });
 

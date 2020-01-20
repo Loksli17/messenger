@@ -54,7 +54,8 @@ app.use(async function(req, res, next){
 
         let UserModel = require('./models/UserModel');
         let user = await UserModel.findById(req.cookies.authToken.id);
-        if(user.series == req.cookies.authToken.series && user.token == req.cookies.authToken.token){
+
+        if(user != null && user.series == req.cookies.authToken.series && user.token == req.cookies.authToken.token){
 
             let token = Math.round((new Date().valueOf() * Math.random())) + '',
                 series = Math.round((new Date().valueOf() * Math.random())) + '';
@@ -76,15 +77,17 @@ app.set('port', process.env.PORT || config.app.port);
 
 
 //routes require
-const indexRouter = require('./routes/indexRouter');
-const authRouter = require('./routes/authRouter');
-const searchRouter = require('./routes/searchRouter');
+const indexRouter    = require('./routes/indexRouter');
+const authRouter     = require('./routes/authRouter');
+const searchRouter   = require('./routes/searchRouter');
+const settingsRouter = require('./routes/settingsRouter');
 
 
 //routes init
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/search',searchRouter);
+app.use('/search', searchRouter);
+app.use('/settings', settingsRouter);
 
 //soft
 app.use(function(req, res){

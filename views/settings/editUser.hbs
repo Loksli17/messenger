@@ -1,0 +1,38 @@
+<style media="screen">
+        form{
+            display: flex;
+            flex-flow: column;
+        }
+
+        form > label{
+            margin-top: 15px;
+        }
+</style>
+
+<div class="wrapper">
+    <form class="" action="/settings/edit-user" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+        <label>
+            <span>Введите e-mail</span>
+            <input type="email" name="email" value="">
+        </label>
+        <label>
+            <span>Введите Имя</span>
+            <input type="text" name="firstName" value="">
+        </label>
+        <label>
+            <span>Введите Фамилию</span>
+            <input type="text" name="secondName" value="">
+        </label>
+        <label>
+            <span>Введите Дату рождения</span>
+            <input type="date" name="dateBorn" value="">
+        </label>
+        <label>
+            <input type="submit" name="" value="Зарегистрироваться">
+        </label>
+        <label>
+            {{error}}
+        </label>
+    </form>
+</div>

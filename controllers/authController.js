@@ -19,24 +19,27 @@ exports.actionLogin = async (req, res) => {
 
     //проверка пришли ли данные
     if(JSON.stringify(post) == "{}"){
-        res.render('auth/login', {});
-        return;
-    }
-
-    if(email == '' || password == ''){
         res.render('auth/login', {
-            error : "Есть пустые поля",
             layout: null,
         });
         return;
     }
 
+    if(email == '' || password == ''){
+        res.render('auth/login', {
+            layout: null,
+            error : "Есть пустые поля",
+        });
+        return;
+    }
+
     user = await UserModel.findOne({email: email});
+    console.log(email, password);
 
     if(user == null){
         res.render('auth/login', {
-            error : "Неверное имя пользователя или пароль",
             layout: null,
+            error : "Неверное имя пользователя или пароль",
         });
         return;
     }
@@ -44,8 +47,8 @@ exports.actionLogin = async (req, res) => {
     let hash = crypto.createHash('sha256', config.user.passSecret).update(password).digest('hex');
     if(hash != user.pass){
         res.render('auth/login', {
-            error : "Неверное имя пользователя или пароль",
             layout: null,
+            error : "Неверное имя пользователя или пароль",
         });
         return;
     }
@@ -107,15 +110,18 @@ exports.actionSignup = async (req, res) => {
             series: '',
             token : '',
         }
-    const {email, firstName, secondName, password, passwordTwo} = post;
+    const {email, firstName, secondName, password, passwordTwo, dateBorn} = post;
 
     if(JSON.stringify(post) == "{}"){
-        res.render('auth/signup', {});
+        res.render('auth/signup', {
+            layout: null,
+        });
         return;
     }
 
     if(
         email       == '' ||
+        dateBorn    == '' ||
         firstName   == '' ||
         secondName  == '' ||
         password    == '' ||
@@ -131,12 +137,14 @@ exports.actionSignup = async (req, res) => {
 
     if(checkEmail != null){
         res.render('auth/signup', {
+            layout: null,
             error: 'Email занят, если это ваш e-mail авторизуйтесь',
         });
     }
 
     if(password != passwordTwo){
         res.render('auth/signup', {
+            layout: null,
             error: 'Введенные парооли не совпадают',
         });
     }
@@ -144,7 +152,8 @@ exports.actionSignup = async (req, res) => {
     newUser.name.firstName  = firstName;
     newUser.name.secondName = secondName;
     newUser.email           = email;
-    newUser.pass            = password;
+    newUser.pass            = crypto.createHash('sha256', config.user.passSecret).update(password).digest('hex');
+    newUser.dateBorn        = dateBorn;
 
     await UserModel.create(newUser);
 

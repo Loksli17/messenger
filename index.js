@@ -42,6 +42,9 @@ hbs.registerHelper('getLogin', function(){
 //locals
 app.use(function(req, res, next){
     if(req.session.userIndentity != undefined){
+        const DateModule = require('./lib/date');
+        let date = new Date(req.session.userIndentity.dateBorn);
+        req.session.userIndentity.dateBorn = DateModule.formatMysql(date);
         res.locals.user = req.session.userIndentity;
     }
     res.locals._csrfToken = req.csrfToken();

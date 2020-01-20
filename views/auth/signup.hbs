@@ -4,6 +4,16 @@
         <meta charset="utf-8">
         <title></title>
     </head>
+    <style media="screen">
+        form{
+            display: flex;
+            flex-flow: column;
+        }
+
+        form > label{
+            margin-top: 15px;
+        }
+    </style>
     <body>
         <div class="wrapper">
             <form class="" action="/auth/signup" method="post">
@@ -27,6 +37,10 @@
                 <label>
                     <span>Введите пароль еще раз</span>
                     <input type="password" name="passwordTwo" value="">
+                </label>
+                <label>
+                    <span>Введите Дату рождения</span>
+                    <input type="date" name="dateOfBorn" value="">
                 </label>
                 <label>
                     <input type="submit" name="" value="Зарегистрироваться">

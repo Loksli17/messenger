@@ -11,4 +11,5 @@ exports.actionIndex = async function(req, res){
     console.log(res.locals.user, req.cookies.authToken);
 
     res.render('index');
+
 };

@@ -1,0 +1,25 @@
+<h1>
+  Search users
+</h1>
+
+<form method="post" action="/search/action">
+  <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+  <br>Параметр поиска
+    <b><input name = "param" type="checkbox" >AND</b>
+  <br> Имя пользователя:<input type="text"  name = "userName">
+  <br> Возраст <select name = "age">
+      <option disabled selected>Выберите возраст</option>
+      {{#each ages}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+ </select>
+ <br> <input type="submit" value="Поиск">
+</form>
+
+{{#if users}}
+  <b>Пользователи:</b>
+{{/if}}
+{{#each users}}
+  <br>Имя {{this.name.firstName}}
+  <br>Фамилия {{this.name.secondName}}
+{{/each}}

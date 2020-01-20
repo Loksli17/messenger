@@ -78,12 +78,13 @@ app.set('port', process.env.PORT || config.app.port);
 //routes require
 const indexRouter = require('./routes/indexRouter');
 const authRouter = require('./routes/authRouter');
+const searchRouter = require('./routes/searchRouter');
 
 
 //routes init
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-
+app.use('/search',searchRouter);
 
 //soft
 app.use(function(req, res){

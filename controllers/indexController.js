@@ -9,6 +9,10 @@ exports.actionIndex = async function(req, res){
     users = await UserModel.find({});
 
     console.log(res.locals.user, req.cookies.authToken);
+<<<<<<< HEAD
     res.send(users);
     
+=======
+    res.render('index');
+>>>>>>> a5758145e81000996a4eeead0aeb39b4800298de
 };

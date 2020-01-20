@@ -11,6 +11,9 @@ let userSchema = mongoose.Schema({
             required: true,
         }
     },
+    dateBorn : {
+        type    : Date,
+    },
     email: {
         type    : String,
         required: true,

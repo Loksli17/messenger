@@ -25,8 +25,8 @@ exports.actionLogin = async (req, res) => {
 
     if(email == '' || password == ''){
         res.render('auth/login', {
-            error: "Есть пустые поля",
-            layout : null,
+            error : "Есть пустые поля",
+            layout: null,
         });
         return;
     }
@@ -35,8 +35,8 @@ exports.actionLogin = async (req, res) => {
 
     if(user == null){
         res.render('auth/login', {
-            error: "Неверное имя пользователя или пароль",
-            layout : null,
+            error : "Неверное имя пользователя или пароль",
+            layout: null,
         });
         return;
     }
@@ -44,8 +44,8 @@ exports.actionLogin = async (req, res) => {
     let hash = crypto.createHash('sha256', config.user.passSecret).update(password).digest('hex');
     if(hash != user.pass){
         res.render('auth/login', {
-            error: "Неверное имя пользователя или пароль",
-            layout : null,
+            error : "Неверное имя пользователя или пароль",
+            layout: null,
         });
         return;
     }
@@ -102,10 +102,10 @@ exports.actionSignup = async (req, res) => {
                 firstName : '',
                 secondName: '',
             },
-            email  : "",
-            pass   : "",
-            series : '',
-            token  : '',
+            email : "",
+            pass  : "",
+            series: '',
+            token : '',
         }
     const {email, firstName, secondName, password, passwordTwo} = post;
 
@@ -122,8 +122,8 @@ exports.actionSignup = async (req, res) => {
         passwordTwo == ''
     ){
         res.render('auth/signup', {
-            error  : 'Есть пустые поля',
-            layout : null,
+            error : 'Есть пустые поля',
+            layout: null,
         });
     }
 
@@ -150,5 +150,4 @@ exports.actionSignup = async (req, res) => {
 
     req.session.userIndentity = newUser;
     res.redirect('/');
-
 }

@@ -23,7 +23,7 @@ exports.index = async function(req,res){
     let maxDate =  await User.find({}).sort({dateBorn : -1}).limit(1);
     let minDate =  await User.find({}).sort({dateBorn :  1}).limit(1);
 
-    if((maxDate || minDate) != undefined){
+    if((maxDate && minDate) != undefined){
         for (let i = minDate[0].dateBorn.getFullYear() ; i < maxDate[0].dateBorn.getFullYear() + 2 ; i ++){
             ages.push(curDate.getFullYear() - i);
         }
@@ -43,11 +43,11 @@ exports.actionIndex = async function(req,res){
   let minDate =  await User.find({}).sort({dateBorn :  1}).limit(1);
   let findedUsers = [];
 
-  if((maxDate || minDate) != undefined){
+  if((maxDate && minDate) != undefined){
       for (let i = minDate[0].dateBorn.getFullYear() ; i < maxDate[0].dateBorn.getFullYear() + 2 ; i ++){
           ages.push(curDate.getFullYear() - i);
       }
-  }        
+  }
 
   if (body.param == undefined){
       if(body.userName.length != 0){

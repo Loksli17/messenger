@@ -44,7 +44,7 @@ exports.index = async function(req, res){
             ages.push(curDate.getFullYear() - i);
         }
     }
-    //fuck 
+    //fuck aazazazaz
     res.render('search/index',{
         ages : ages,
     });

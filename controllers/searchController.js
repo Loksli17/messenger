@@ -1,11 +1,11 @@
 const User = require('./../models/UserModel');
 
-function getUniq(users,findedUsers){
+function getUniq(users, findedUsers){
     let finded = false;
     for (let i = 0; i < findedUsers.length; i++){
         finded = false;
         for(let j = 0; j < users.length; j++){
-            if (users[j]._id+'' == findedUsers[i]._id+''){
+            if (users[j]._id + '' == findedUsers[i]._id + ''){
                 finded = true;
                 break;
             }
@@ -16,7 +16,23 @@ function getUniq(users,findedUsers){
     }
 }
 
-exports.index = async function(req,res){
+function getWords(string){
+    let words = [];
+    let newString = [];
+
+    string = string + '';
+    string = string.toLowerCase();
+    newString = string.split(/\p{Zs}/gu);
+
+    for(let i = 0; i < newString.length; i++){
+        if(newString[i].length != 0){
+            words.push(newString[i]);
+        }
+    }
+    return words;
+}
+
+exports.index = async function(req, res){
     let users = [];
     let ages  = [];
     let curDate = new Date();
@@ -28,13 +44,14 @@ exports.index = async function(req,res){
             ages.push(curDate.getFullYear() - i);
         }
     }
-
+    //fuck 
     res.render('search/index',{
         ages : ages,
     });
 }
 
-exports.actionIndex = async function(req,res){
+exports.actionIndex = async function(req, res){
+  let words   = [];
   let users   = [];
   let ages    = [];
   let body    = req.body;
@@ -48,9 +65,11 @@ exports.actionIndex = async function(req,res){
           ages.push(curDate.getFullYear() - i);
       }
   }
-
+  console.log(body.param);
   if (body.param == undefined){
+
       if(body.userName.length != 0){
+          words = getWords(body.userName);
           users = await User.find({$or : [{"name.firstName" : body.userName} , {"name.secondName" : body.userName}] });
       }
       if(body.age != undefined){

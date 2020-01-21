@@ -5,15 +5,44 @@
         }
 
         form > label{
-            margin-top: 15px;
+            display: flex;
+            flex-flow: column;
+            width: max-content;
+            margin-top: 20px;
+        }
+
+        form > label *{
+            margin-bottom: 10px;
+        }
+
+        #file-input{
+            display: none;
+        }
+
+        #drop-zone{
+            border: 1px dashed;
+            padding: 20px 0px;
+            text-align: center;
+        }
+
+        #canvas-user-img{
+            display: none;
         }
 </style>
 
 <div class="wrapper">
-    <form class="" action="/settings/edit-user" method="post">
+    <form class="" action="/settings/edit-user" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="{{_csrfToken}}">
         <label for="">
-            
+            <span>Ваша аватарка</span>
+            <img id="img" src="/img/user-photo/{{user.img}}" width="300px" alt="">
+            <div id="drop-zone">
+                Загрузите новое изображение
+            </div>
+            <div id="output-zone">
+
+            </div>
+            <input id="file-input" type="file" name="filedata" value="">
         </label>
         <label>
             <span>Введите e-mail</span>
@@ -39,3 +68,7 @@
         </label>
     </form>
 </div>
+
+<script type="text/javascript" src="/js/settings/editUser.js">
+
+</script>

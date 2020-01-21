@@ -73,3 +73,5 @@ exports.actionIndex = async function(req,res){
       ages  : ages,
   });
 }
+
+//kek and lol

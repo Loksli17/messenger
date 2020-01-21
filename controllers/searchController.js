@@ -93,4 +93,10 @@ exports.actionIndex = async function(req, res){
   });
 }
 
-//kek and lol
+function test(){
+    //функция которая ничего не делает
+}
+
+function azaz(){
+    //function with BIG FUCK
+}

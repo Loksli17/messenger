@@ -96,3 +96,11 @@ exports.actionIndex = async function(req, res){
 function lolol(){
     console.log('fuck');
 }
+
+function test(){
+    //функция которая ничего не делает
+}
+
+function azaz(){
+    //function with BIG FUCK
+}

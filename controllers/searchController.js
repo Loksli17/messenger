@@ -87,7 +87,7 @@ exports.actionIndex = async function(req, res){
       ]})
   }
 
-  res.render('search/index',{s
+  res.render('search/index', {
       users : users,
       ages  : ages,
   });

@@ -65,26 +65,25 @@ exports.actionIndex = async function(req, res){
           ages.push(curDate.getFullYear() - i);
       }
   }
-  console.log(body.param);
-  if (body.param == undefined){
-
-      if(body.userName.length != 0){
-          words = getWords(body.userName);
-          users = await User.find({$or : [{"name.firstName" : body.userName} , {"name.secondName" : body.userName}] });
+  if(body.userName.length != 0){
+      words = getWords(body.userName);
+      console.log(words);
+      if(words.length < 2){
+          users = await User.find({$or : [{"name.firstName" : words[0]}, {"name.secondName" : words[0]}] });
+      }else{
+          users = await User.find({
+              $or : [
+                  {$and : [{"name.firstName" : words[0]}, {"name.secondName" : words[1]}]},
+                  {$and : [{"name.firstName" : words[1]}, {"name.secondName" : words[0]}]}
+              ]
+          })
       }
-      if(body.age != undefined){
 
-          findedUsers =  await User.find({dateBorn : {$gte: curDate.getFullYear() - body.age - 1 + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate(),
-           $lte : curDate.getFullYear() - body.age + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate()}});
-          getUniq(users,findedUsers);
-
-      }
-  }else{
-      users = await User.find({ $and : [
-          {$or : [{"name.firstName" : body.userName} , {"name.secondName" : body.userName}] },
-          {dateBorn : {$gte: curDate.getFullYear() - body.age - 1 + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate(),
-           $lte : curDate.getFullYear() - body.age + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate()}}
-      ]})
+  }
+  if(body.age != undefined){
+      findedUsers =  await User.find({dateBorn : {$gte: curDate.getFullYear() - body.age - 1 + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate(),
+       $lte : curDate.getFullYear() - body.age + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate()}});
+      getUniq(users,findedUsers);
   }
 
   res.render('search/index', {

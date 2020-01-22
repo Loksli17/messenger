@@ -12,8 +12,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Олежа',
-                                    secondName: 'Чеботарев',
+                                    firstName: 'олежа',
+                                    secondName: 'чеботарев',
                                 },
                                 dateBorn: '2002-01-01',
                                 email: 'ami0504@mail.ru',
@@ -33,8 +33,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Вася',
-                                    secondName: 'Чеботарев',
+                                    firstName: 'вася',
+                                    secondName: 'чеботарев',
                                 },
                                 dateBorn: '2005-11-23',
                                 email: 'ami0505@mail.ru',
@@ -55,8 +55,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Юха',
-                                    secondName: 'Спицин',
+                                    firstName: 'юха',
+                                    secondName: 'спицин',
                                 },
                                 dateBorn: '2005-11-23',
                                 email: 'ami0506@mail.ru',
@@ -77,8 +77,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Мазда',
-                                    secondName: 'Хонда',
+                                    firstName: 'мазда',
+                                    secondName: 'хонда',
                                 },
                                 dateBorn: '2005-11-23',
                                 email: 'ami0507@mail.ru',
@@ -99,8 +99,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Дмитрий',
-                                    secondName: 'Белан',
+                                    firstName: 'дмитрий',
+                                    secondName: 'белан',
                                 },
                                 dateBorn: '2001-09-11',
                                 email: 'ami0508@mail.ru',
@@ -121,8 +121,8 @@ let query = async () => {
                         function(callback){
                             let user = new User({
                                 name: {
-                                    firstName: 'Олежа',
-                                    secondName: 'Рукавишников',
+                                    firstName: 'олежа',
+                                    secondName: 'рукавишников',
                                 },
                                 dateBorn: '2001-09-11',
                                 email: 'ami0509@mail.ru',

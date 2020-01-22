@@ -110,6 +110,7 @@ exports.actionSignup = async (req, res) => {
             series: '',
             token : '',
         }
+
     const {email, firstName, secondName, password, passwordTwo, dateBorn} = post;
 
     if(JSON.stringify(post) == "{}"){
@@ -149,11 +150,12 @@ exports.actionSignup = async (req, res) => {
         });
     }
 
-    newUser.name.firstName  = firstName;
-    newUser.name.secondName = secondName;
-    newUser.email           = email;
+    newUser.name.firstName  = firstName.toLowerCase();
+    newUser.name.secondName = secondName.toLowerCase();
+    newUser.email           = email.toLowerCase();
     newUser.pass            = crypto.createHash('sha256', config.user.passSecret).update(password).digest('hex');
     newUser.dateBorn        = dateBorn;
+    newUser.img             = 'default.png';
 
     await UserModel.create(newUser);
 

@@ -87,20 +87,8 @@ exports.actionIndex = async function(req, res){
       ]})
   }
 
-  res.render('search/index',{s
+  res.render('search/index',{
       users : users,
       ages  : ages,
   });
-}
-
-function lolol(){
-    console.log('fuck');
-}
-
-function test(){
-    //функция которая ничего не делает
-}
-
-function azaz(){
-    //function with BIG FUCK
 }

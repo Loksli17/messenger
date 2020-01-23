@@ -66,6 +66,6 @@ exports.actionUploadFile = async (req, res) => {
 
     let newUser = res.locals.user;
     newUser.img = file.filename;
-    await UserModel.updateOne({_id: newUser._id}, user);
+    await UserModel.updateOne({_id: newUser._id}, newUser);
 
 }

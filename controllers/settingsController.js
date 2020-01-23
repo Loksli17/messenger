@@ -36,7 +36,36 @@ exports.actionEditUser = async (req, res) => {
 
     req.session.userIndentity = user;
     res.locals.user = req.session.userIndentity;
-    console.log(req.session.userIndentity, res.locals.user);
 
     res.redirect('/');
+}
+
+
+exports.actionUploadFile = async (req, res) => {
+    if(!req.xhr){
+        res.render('server/error', {
+            layout : null,
+            err    : 500,
+            messege: "Iternal Server Error",
+        });
+    }
+
+    let file = req.file;
+
+    if(file.mimetype != 'image/png' && file.mimetype != 'image/jpeg' && file.mimetype != 'image/jpg'){
+        res.status(500);
+        res.send();
+        return;
+    }
+
+    if(file.size > 8 * 1024 * 1024 * 5){
+        res.status(500);
+        res.send();
+        return;
+    }
+
+    let newUser = res.locals.user;
+    newUser.img = file.filename;
+    await UserModel.updateOne({_id: newUser._id}, user);
+
 }

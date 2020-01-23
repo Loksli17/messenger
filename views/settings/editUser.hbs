@@ -19,31 +19,52 @@
             display: none;
         }
 
+        .user-img{
+            display: flex;
+            flex-flow: column;
+        }
+        .user-img *{
+            margin-top: 10px;
+        }
+
         #drop-zone{
             border: 1px dashed;
             padding: 20px 0px;
             text-align: center;
+            width: 300px;
         }
 
         #canvas-user-img{
             display: none;
         }
+
+        .load-info{
+            display: none;
+        }
+
 </style>
 
 <div class="wrapper">
-    <form class="" action="/settings/edit-user" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-        <label for="">
-            <span>Ваша аватарка</span>
-            <img id="img" src="/img/user-photo/{{user.img}}" width="300px" alt="">
-            <div id="drop-zone">
-                Загрузите новое изображение
-            </div>
-            <div id="output-zone">
 
+    <div class="user-img">
+        <span>Ваша аватарка</span>
+        <img id="img" src="/img/user-photo/{{user.img}}" width="300px" alt="">
+        <div id="drop-zone">
+            Загрузите новое изображение
+        </div>
+        <div id="output-zone">
+        </div>
+        <div class="load-info">
+            <div class="progress">
+                <progress max="100" value="0" id="progress"></progress>
+                <div class="progress-bg"><div class="progress-bar"></div></div>
             </div>
-            <input id="file-input" type="file" name="filedata" value="">
-        </label>
+        </div>
+    </div>
+
+    <form class="" action="/settings/edit-user" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+        <input type="hidden" name="_id" value="{{user._id}}">
         <label>
             <span>Введите e-mail</span>
             <input type="email" name="email" value="{{user.email}}">

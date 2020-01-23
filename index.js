@@ -25,7 +25,6 @@ app.use(
         }
     })
 );
-app.use(require('csurf')());
 
 //handlebars
 app.engine('hbs', expressHbs({
@@ -54,8 +53,7 @@ app.use(function(req, res, next){
         res.locals.user = req.session.userIndentity;
     }
 
-    res.locals._csrfToken = req.csrfToken();
-
+    // res.locals._csrfToken = req.csrfToken();
     next();
 });
 

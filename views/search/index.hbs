@@ -20,4 +20,5 @@
 {{#each users}}
   <br>Имя {{this.name.firstName}}
   <br>Фамилия {{this.name.secondName}}
+  <br><a href="/chat?id={{this._id}}"> Чат с пользователем </a>
 {{/each}}

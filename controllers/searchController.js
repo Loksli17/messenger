@@ -78,7 +78,6 @@ exports.actionIndex = async function(req, res){
               ]
           })
       }
-
   }
   if(body.age != undefined){
       findedUsers =  await User.find({dateBorn : {$gte: curDate.getFullYear() - body.age - 1 + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate(),

@@ -10,8 +10,14 @@ const expressHbs = require('express-handlebars');
 //own libs
 const config = require('./config');
 
-let app = express();
+let app       = express();
+const server  = require('http').createServer(app);
 
+//socket
+const socket        = require('socket.io');
+const chatController= require ('./controllers/chatController');
+const io            = socket(server);
+io.sockets.on('connection', chatController.respondConnect);
 
 //use
 app.use(express.static(__dirname + '/public'));
@@ -90,6 +96,7 @@ const indexRouter    = require('./routes/indexRouter');
 const authRouter     = require('./routes/authRouter');
 const searchRouter   = require('./routes/searchRouter');
 const settingsRouter = require('./routes/settingsRouter');
+const chatRouter     = require('./routes/chatRouter');
 
 
 //routes init
@@ -97,6 +104,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/settings', settingsRouter);
+app.use('/chat',chatRouter);
 
 //soft
 app.use(function(req, res){
@@ -120,6 +128,6 @@ app.use(function(err, req, res, next){
 
 
 //listen
-app.listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
     console.log('Application are working on port: ' + config.app.port + '. Press Crtl+C for closing');
 });

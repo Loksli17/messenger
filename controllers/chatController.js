@@ -1,11 +1,11 @@
-const User = require('./../models/UserModel');
-const Chat = require('./../models/ChatModel');
+const UserModel = require('./../models/UserModel');
+const ChatModel = require('./../models/ChatModel');
 
 var connections = [];
 
 async function saveMessage(data){
     let dataToSave = {};
-    let chat = await Chat.findOne({'_id' : data.chatId});
+    let chat = await ChatModel.findOne({'_id' : data.chatId});
 
     dataToSave = {
         text    : data.message ,
@@ -24,9 +24,12 @@ exports.Index = async function(req, res){
     let opponent = {};
 
     connections.push(req.session.userIndentity);
-    chat = await Chat.findOne({["users." + req.session.userIndentity._id] : req.session.userIndentity._id});
+    chat = await ChatModel.findOne({$and: [
+        {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
+        {["users." + req.query.id] : req.query.id}
+    ]});
     if(chat == null){
-        chat = new Chat({
+        chat = new ChatModel({
             messages : [],
             users    : {
                 [req.session.userIndentity._id] : req.session.userIndentity._id,
@@ -37,7 +40,7 @@ exports.Index = async function(req, res){
     }
 
     if(chat.messages.length != 0){
-        opponent = await User.findOne({'_id' : req.query.id});
+        opponent = await UserModel.findOne({'_id' : req.query.id});
         for(let i = 0; i < chat.messages.length; i++){
             if(chat.messages[i].userId == req.session.userIndentity._id){
                 chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " +
@@ -61,10 +64,10 @@ exports.Index = async function(req, res){
 
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
-        data  = {};
-    let chat = {};
-    let time = '';
-    let date = '';
+        data  = {},
+        chat  = {},
+        time  = '',
+        date  = '';
 
     chat = connections[connections.length-1];
     connections[connections.length-1] = socketIo;

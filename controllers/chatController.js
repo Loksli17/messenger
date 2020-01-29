@@ -93,4 +93,8 @@ exports.respondConnect = async function(socketIo){
             socketIo.emit('chat message',data);
         }
     })
+    socketIo.on('disconnect',function () {
+        console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
+        connections.splice(connections.indexOf(socketIo),1);
+    })
 }

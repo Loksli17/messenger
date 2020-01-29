@@ -51,7 +51,7 @@ app.use(function(req, res, next){
 
         const DateModule = require('./lib/date');
         let date = new Date(req.session.userIndentity.dateBorn);
-        req.session.userIndentity.dateBorn = DateModule.formatMysql(date);
+        req.session.userIndentity.dateBorn = DateModule.formatDbDate(date);
 
         req.session.userIndentity.name.firstName = req.session.userIndentity.name.firstName[0].toUpperCase() + req.session.userIndentity.name.firstName.slice(1);
         req.session.userIndentity.name.secondName = req.session.userIndentity.name.secondName[0].toUpperCase() + req.session.userIndentity.name.secondName.slice(1);

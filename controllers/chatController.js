@@ -1,5 +1,6 @@
 const UserModel = require('./../models/UserModel');
 const ChatModel = require('./../models/ChatModel');
+const DateModel = require('./../lib/date');
 
 var connections = [];
 
@@ -78,13 +79,11 @@ exports.respondConnect = async function(socketIo){
     socketIo.join(chat._id);
     socketIo.on('chat message',  function (message) {
         today = new Date();
-        date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
-        time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
         data = {
            message : message + "",
-           date    : date + "",
-           time    : time + "",
+           date    : DateModel.formatDbDate(today),
+           time    : DateModel.formatDbTime(today),
            userName: chat.userName + "",
            userId  : connections[connections.indexOf(socketIo)].userId,
            chatId  : chat._id,

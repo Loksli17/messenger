@@ -69,19 +69,32 @@ exports.actionIndex = async function(req, res){
       words = getWords(body.userName);
       console.log(words);
       if(words.length < 2){
-          users = await User.find({$or : [{"name.firstName" : words[0]}, {"name.secondName" : words[0]}] });
+          users = await User.find({$and : [
+              {$or : [{"name.firstName" : words[0]}, {"name.secondName" : words[0]}]},
+              {'_id' : {$not : {$eq: req.session.userIndentity._id}}}
+          ]});
       }else{
           users = await User.find({
-              $or : [
-                  {$and : [{"name.firstName" : words[0]}, {"name.secondName" : words[1]}]},
-                  {$and : [{"name.firstName" : words[1]}, {"name.secondName" : words[0]}]}
+              $and: [
+                  {'_id' : {$not : {$eq: req.session.userIndentity._id}}},
+                  {$or : [
+                      {$and : [{"name.firstName" : words[0]}, {"name.secondName" : words[1]}]},
+                      {$and : [{"name.firstName" : words[1]}, {"name.secondName" : words[0]}]}
+                  ]},
               ]
           })
       }
   }
   if(body.age != undefined){
-      findedUsers =  await User.find({dateBorn : {$gte: curDate.getFullYear() - body.age - 1 + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate(),
-       $lte : curDate.getFullYear() - body.age + '-'+ (curDate.getMonth()+1)+'-'+curDate.getDate()}});
+      findedUsers =  await User.find({
+          $and : [
+              {'_id' : {$not : {$eq: req.session.userIndentity._id}}},
+              {dateBorn : {$gte: curDate.getFullYear() - body.age - 1
+                   + '-' + (curDate.getMonth()+1) + '-' + curDate.getDate(),
+                   $lte : curDate.getFullYear() - body.age + '-'
+                   + (curDate.getMonth()+1)+'-'+curDate.getDate()}},
+      ]
+   });
       getUniq(users,findedUsers);
   }
 

@@ -20,11 +20,11 @@ async function saveMessage(data){
 }
 
 exports.Index = async function(req, res){
-    let chat      = {};
-    let opponent  = {}
+    let chat     = {};
+    let opponent = {};
 
     connections.push(req.session.userIndentity);
-    chat = await Chat.findOne({["users."+req.session.userIndentity._id] : req.session.userIndentity._id});
+    chat = await Chat.findOne({["users." + req.session.userIndentity._id] : req.session.userIndentity._id});
     if(chat == null){
         chat = new Chat({
             messages : [],
@@ -37,8 +37,7 @@ exports.Index = async function(req, res){
     }
 
     if(chat.messages.length != 0){
-        opponent = await User.findOne({'_id' : req.query.id})
-        console.log(opponent);
+        opponent = await User.findOne({'_id' : req.query.id});
         for(let i = 0; i < chat.messages.length; i++){
             if(chat.messages[i].userId == req.session.userIndentity._id){
                 chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " +
@@ -80,10 +79,10 @@ exports.respondConnect = async function(socketIo){
         time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
         data = {
-           message : message+"",
-           date    : date +"",
-           time    : time+ "",
-           userName: chat.userName+"",
+           message : message + "",
+           date    : date + "",
+           time    : time + "",
+           userName: chat.userName + "",
            userId  : connections[connections.indexOf(socketIo)].userId,
            chatId  : chat._id,
         };

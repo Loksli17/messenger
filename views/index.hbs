@@ -1,2 +1,32 @@
+<style media="screen">
+
+    .cha-cont{
+        display: flex;
+        flex-flow: column;
+    }
+
+    .chat{
+        display: flex;
+        margin-top: 10px;
+        text-decoration: none;
+    }
+</style>
+
 <i>Главная</i>
 <br><a href="/search">Поиск пользователей</a>
+
+<h2>Чаты</h2>
+<div class="chat-wrap">
+    {{#if error}}
+        <div>Чатов пока еще, найдите пользоватей для того чтобы начать чат</div>
+    {{else}}
+        {{#each chats}}
+            {{#if this.isActive}}
+            <a class="chat" href="/chat?id={{this.link}}">
+                <img width="70" src="/img/user-photo/{{this.lastMes.user.img}}" alt="">
+                <span>{{this.lastMes.text}}</span>
+            </a>
+            {{/if}}
+        {{/each}}
+    {{/if}}
+</div>

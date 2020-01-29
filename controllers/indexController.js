@@ -17,7 +17,7 @@ exports.actionIndex = async (req, res) => {
     }
 
     for(let i = 0; i < userChats.length; i++){
-        userChats[i].lastMes = userChats[i].messages[0];
+        userChats[i].lastMes = userChats[i].messages[userChats[i].messages.length - 1];
 
 
         if(userChats[i].lastMes != undefined){

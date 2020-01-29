@@ -21,7 +21,7 @@ io.sockets.on('connection', chatController.respondConnect);
 
 //use
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookie(config.cookie.secret));
 app.use(
     session({

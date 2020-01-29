@@ -60,8 +60,8 @@ exports.Index = async function(req, res){
 }
 
 exports.respondConnect = async function(socketIo){
-    let today = new Date();
-    let data = {};
+    let today = new Date(),
+        data  = {};
     let chat = {};
     let time = '';
     let date = '';

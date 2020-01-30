@@ -60,7 +60,8 @@ exports.actionIndex = async function(req, res){
 
     connections.push(chat);
     res.render('chat/chat', {
-        messages : chat.messages,
+        messages: chat.messages,
+        opponent: opponent, 
     });
 }
 

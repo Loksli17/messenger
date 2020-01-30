@@ -21,7 +21,7 @@ async function saveMessage(data){
 }
 
 
-exports.Index = async function(req, res){
+exports.actionIndex = async function(req, res){
     let chat     = {};
     let opponent = {};
 

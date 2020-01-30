@@ -20,6 +20,7 @@ async function saveMessage(data){
     return;
 }
 
+
 exports.Index = async function(req, res){
     let chat     = {};
     let opponent = {};
@@ -63,6 +64,7 @@ exports.Index = async function(req, res){
     });
 }
 
+
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
         data  = {},
@@ -70,14 +72,14 @@ exports.respondConnect = async function(socketIo){
         time  = '',
         date  = '';
 
-    chat = connections[connections.length-1];
-    connections[connections.length-1] = socketIo;
-    connections[connections.length-1].userId    = chat.userId;
-    connections[connections.length-1].userName  = chat.userName;
-    connections[connections.length-1].chatId    = chat._id;
+    chat = connections[connections.length - 1];
+    connections[connections.length - 1] = socketIo;
+    connections[connections.length - 1].userId   = chat.userId;
+    connections[connections.length - 1].userName = chat.userName;
+    connections[connections.length - 1].chatId   = chat._id;
 
     socketIo.join(chat._id);
-    socketIo.on('chat message',  function (message) {
+    socketIo.on('chat message', function(message){
         today = new Date();
 
         data = {
@@ -90,12 +92,13 @@ exports.respondConnect = async function(socketIo){
         };
         if(data.message != ""){
             saveMessage(data);
-            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message',data);
-            socketIo.emit('chat message',data);
+            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', data);
+            socketIo.emit('chat message', data);
         }
-    })
+    });
+
     socketIo.on('disconnect',function () {
-        console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
-        connections.splice(connections.indexOf(socketIo),1);
+        console.log(connections[connections.indexOf(socketIo)].userName + 'disconnected');
+        connections.splice(connections.indexOf(socketIo), 1);
     })
 }

@@ -9,6 +9,6 @@ chatRouter.use(function(req, res, next){
     next();
 })
 
-chatRouter.all('/',chatController.Index);
+chatRouter.all('/', chatController.actionIndex);
 
 module.exports = chatRouter;

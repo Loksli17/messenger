@@ -1,0 +1,68 @@
+.menu-bth{
+	display: block;
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    z-index: 9999;
+    width: 36px;
+    height: 36px;
+}
+
+.menu-bth > span,
+.menu-bth > span::before,
+.menu-bth > span::after{
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: #F6CE45;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2px;
+    margin-left: -18px;
+}
+
+.menu-bth > span::before,
+.menu-bth > span::after{
+    content: '';
+    transition: 0.3s;
+}
+
+.menu-bth > span::before{
+    transform: translateY(-12px);
+}
+
+.menu-bth > span::after{
+    transform: translateY(12px);
+    width: 30px;
+}
+
+.menu-bth:hover{
+    cursor: pointer;
+}
+
+.menu-bth:hover .menu-bth span{
+   background: #ccc;
+}
+
+.menu-bth-active{
+    transition: 0.3s;
+}
+
+.menu-bth-active span{
+    transform: translateY(2px);
+}
+
+.menu-bth-active span::before{
+    transform: rotate(-45deg) /*translateY(2px)*/;
+}
+
+.menu-bth-active span::after{
+	width: 36px;
+	margin-left: -18px;
+    transform: rotate(45deg) /*translateY(2px)*/;
+}
+
+.menu-bth-active span{
+    height: 0px;
+}

@@ -20,7 +20,8 @@ async function saveMessage(data){
     return;
 }
 
-exports.Index = async function(req, res){
+
+exports.actionIndex = async function(req, res){
     let chat     = {};
     let opponent = {};
 
@@ -59,9 +60,11 @@ exports.Index = async function(req, res){
 
     connections.push(chat);
     res.render('chat/chat', {
-        messages : chat.messages,
+        messages: chat.messages,
+        opponent: opponent,
     });
 }
+
 
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
@@ -77,7 +80,7 @@ exports.respondConnect = async function(socketIo){
     connections[connections.length-1].chatId    = chat._id;
 
     socketIo.join(chat._id);
-    socketIo.on('chat message',  function (message) {
+    socketIo.on('chat message', function(message){
         today = new Date();
 
         data = {
@@ -90,12 +93,13 @@ exports.respondConnect = async function(socketIo){
         };
         if(data.message != ""){
             saveMessage(data);
-            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message',data);
-            socketIo.emit('chat message',data);
+            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', data);
+            socketIo.emit('chat message', data);
         }
-    })
+    });
+
     socketIo.on('disconnect',function () {
-        console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
-        connections.splice(connections.indexOf(socketIo),1);
+        console.log(connections[connections.indexOf(socketIo)].userName + 'disconnected');
+        connections.splice(connections.indexOf(socketIo), 1);
     })
 }

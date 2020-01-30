@@ -71,7 +71,7 @@ exports.respondConnect = async function(socketIo){
         date  = '';
 
     chat = connections[connections.length-1];
-    connections[connections.length-1] = socketIo;
+    connections[connections.length-1]           = socketIo;
     connections[connections.length-1].userId    = chat.userId;
     connections[connections.length-1].userName  = chat.userName;
     connections[connections.length-1].chatId    = chat._id;

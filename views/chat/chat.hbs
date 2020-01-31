@@ -57,9 +57,11 @@
     </form>
 </div>
 
+<script src="/js/chat/more-mes.js" charset="utf-8"></script>
 <script src="/js/chat/auto-scroll.js" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var currentUserId = "{{{user._id}}}";
+    var currentUserId = "{{{user._id}}}",
+        countMessage  = {{countMessage}};
 </script>
 <script src="/js/chat/chat.js" charset="utf-8"></script>

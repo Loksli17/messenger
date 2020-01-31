@@ -30,9 +30,10 @@ async function saveMessage(data, socketIo){
 }
 
 exports.actionIndex = async function(req, res){
-    let chat     = {};
-    let opponent = {};
-    let queryIdOpponent = '';
+    let chat            = {},
+        opponent        = {},
+        queryIdOpponent = '',
+        countMessage    = 20;
 
     queryIdOpponent = String(req.query.id);
 
@@ -55,6 +56,8 @@ exports.actionIndex = async function(req, res){
         {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
         {["users." + req.query.id] : req.query.id}
     ]});
+
+    chat.messages = chat.messages.slice(chat.messages.length - countMessage, chat.messages.length);
 
     if(chat == null){
         chat = new ChatModel({
@@ -92,8 +95,9 @@ exports.actionIndex = async function(req, res){
     connections.push(chat);
 
     res.render('chat/chat', {
-        messages: chat.messages,
-        opponent: opponent,
+        messages    : chat.messages,
+        opponent    : opponent,
+        countMessage: countMessage,
     });
 }
 

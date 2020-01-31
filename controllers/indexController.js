@@ -37,13 +37,18 @@ exports.actionIndex = async (req, res) => {
         }
     }
 
-    userChats.sort((a, b) => {
-        let dateA = new Date(a.lastMes.date + 'T' + a.lastMes.time),
-            dateB = new Date(b.lastMes.date + 'T' + b.lastMes.time);
+    //ФИКС
+    console.log(userChats.length);
 
-        console.log(a.lastMes.date, dateA);
-        return dateB - dateA;
-    });
+    if(userChats.length > 1){
+        userChats.sort((a, b) => {
+            let dateA = new Date(a.lastMes.date + 'T' + a.lastMes.time),
+                dateB = new Date(b.lastMes.date + 'T' + b.lastMes.time);
+
+            console.log(a.lastMes.date, dateA);
+            return dateB - dateA;
+        });
+    }
 
     res.render('index', {
         error: countActiveChat ? false : true,

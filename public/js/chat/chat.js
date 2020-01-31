@@ -1,6 +1,5 @@
 const socket = io();
 
-
 function sendMes(e){
     e.preventDefault();
     let mes = this.children[0].value;
@@ -10,17 +9,36 @@ function sendMes(e){
 
 
 socket.on('chat message', function(data){
-    let messages = document.querySelector('.messages-cont'),
+    let messages = document.querySelector('.messeges-cont'),
         li       = document.createElement('li');
 
-    li.innerText = "Date: [" + data.date + "] Time: [" + data.time + "] User: [" + data.userName + "] Text: " + data.message;
+    li.classList.add('messege');
+
+    if(data.userId == currentUserId){
+        li.innerHTML = "<div class='mes-body'><div class='mes-text'>"
+                        + data.message
+                        + "</div><div class='mes-datetime'>"
+                        + data.date + data.time
+                        + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
+                        + data.time
+                        + "' alt=''></div>";
+        li.classList.add('currentUser');
+    }else{
+        li.innerHTML = "<div class='mes-body'><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
+                        + data.time
+                        + "' alt=''></div>"
+                        + "<div class='mes-text'>"
+                        + data.message
+                        + "</div><div class='mes-datetime'>"
+                        + data.date + data.time
+                        + "</div></div>";
+        li.classList.add('currentUser');
+    }
+
     messages.append(li);
 });
 
 
-window.onload = () => {
-    let form  = document.querySelector('.messege-form'),
-        input = document.querySelector('#messege');
 
-    form.addEventListener('submit', sendMes, false);
-}
+let form  = document.querySelector('.messege-form');
+form.addEventListener('submit', sendMes, false);

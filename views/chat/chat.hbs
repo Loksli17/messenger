@@ -1,26 +1,65 @@
-<link rel="stylesheet" href="/css/chat/.css">
+<link rel="stylesheet" href="/css/chat/chat.css">
 
-<div class="opponent">
-    <div class="opponent-img">
-        <img width="70px" src="/img/user-photo/{{opponent.img}}" alt="">
+<div class="wrap">
+    <div class="opponent">
+        <div class="opponent-img">
+            <img width="55" src="/img/user-photo/{{opponent.img}}" alt="">
+        </div>
+        <div class="opponent-name">
+            <h2>{{opponent.name.firstName}} {{opponent.name.secondName}}</h2>
+        </div>
+        <div class="online">
+            онлайн
+        </div>
     </div>
-    <div class="opponent-name">
-        <span>{{opponent.name.firstName}} {{opponent.name.secondName}}</span>
+
+    <div class="messeges">
+        <ul class="messeges-cont">
+            {{#each messages}}
+                {{#if this.currentUser}}
+                    <li class="messege currentUser">
+                        <div class="mes-body">
+                            <div class="mes-text">
+                                {{this.text}}
+                            </div>
+                            <div class="mes-datetime">
+                                {{this.date}} {{this.time}}
+                            </div>
+                        </div>
+                        <div class="mes-user-img">
+                            <img width="50" height="50" src="/img/user-photo/{{this.img}}" alt="">
+                        </div>
+                    </li>
+                {{else}}
+                    <li class="messege partner">
+                        <div class="mes-user-img">
+                            <img src="/img/user-photo/{{this.img}}" width="50" height="50" alt="">
+                        </div>
+                        <div class="mes-body">
+                            <div class="mes-text">
+                                {{this.text}}
+                            </div>
+                            <div class="mes-datetime">
+                                {{this.date}} {{this.time}}
+                            </div>
+                        </div>
+                    </li>
+                {{/if}}
+            {{/each}}
+        </ul>
     </div>
-    <div class="online">
-        онлайн
-    </div>
+
+    <form class="messege-form" action="">
+        <input id="messege-input" autocomplete="off"/>
+        <button>
+            <img width="30" src="/img/chat/right-arrow.svg"></img>
+        </button>
+    </form>
 </div>
 
-<ul class="messages-cont">
-    {{#each messages}}
-        <li>Date: [{{this.date}}] Time: [{{this.time}}] User: [{{this.userName}}] Text: {{this.text}}</li>
-    {{/each}}
-</ul>
-
-<form class="messege-form" action="">
-    <input id="messege" autocomplete="off" /><button>Send</button>
-</form>
 
 <script src="/socket.io/socket.io.js"></script>
+<script>
+    var currentUserId = "{{{user._id}}}";
+</script>
 <script src="/js/chat/chat.js" charset="utf-8"></script>

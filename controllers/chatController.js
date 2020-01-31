@@ -26,10 +26,12 @@ exports.actionIndex = async function(req, res){
     let opponent = {};
 
     connections.push(req.session.userIndentity);
+
     chat = await ChatModel.findOne({$and: [
         {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
         {["users." + req.query.id] : req.query.id}
     ]});
+
     if(chat == null){
         chat = new ChatModel({
             messages : [],
@@ -47,9 +49,12 @@ exports.actionIndex = async function(req, res){
             if(chat.messages[i].userId == req.session.userIndentity._id){
                 chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " +
                     req.session.userIndentity.name.secondName;
+                chat.messages[i].currentUser = true;
+                chat.messages[i].img = req.session.userIndentity.img;
             }else{
                 chat.messages[i].userName = opponent.name.firstName + " " +
                     opponent.name.secondName;
+                chat.messages[i].img = opponent.img;
             }
         }
     }
@@ -61,7 +66,7 @@ exports.actionIndex = async function(req, res){
     connections.push(chat);
     res.render('chat/chat', {
         messages: chat.messages,
-        opponent: opponent, 
+        opponent: opponent,
     });
 }
 

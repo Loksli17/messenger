@@ -54,7 +54,7 @@ exports.actionIndex = async function(req, res){
 
     chat = await ChatModel.findOne({$and: [
         {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
-        {["users." + req.query.id] : req.query.id}
+        {["users." + req.query.id] : queryIdOpponent}
     ]});
 
     chat.messages = chat.messages.slice(chat.messages.length - countMessage, chat.messages.length);
@@ -64,7 +64,7 @@ exports.actionIndex = async function(req, res){
             messages : [],
             users    : {
                 [req.session.userIndentity._id] : req.session.userIndentity._id,
-                [req.query.id]                  : req.query.id,
+                [req.query.id]                  : queryIdOpponent,
             },
         });
       await chat.save();
@@ -121,10 +121,10 @@ exports.respondConnect = async function(socketIo){
         today = new Date();
 
         data = {
-           message : message + "",
+           message : String(message),
            date    : DateModel.formatDbDate(today),
            time    : DateModel.formatDbTime(today),
-           userName: chat.userName + "",
+           userName: String(chat.userName),
            userId  : connections[connections.indexOf(socketIo)].userId,
            chatId  : chat._id,
            img     : chat.img,

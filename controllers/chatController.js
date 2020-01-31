@@ -83,10 +83,11 @@ exports.actionIndex = async function(req, res){
         }
     }
 
-    chat.userId   = req.session.userIndentity._id;
-    chat.userName = req.session.userIndentity.name.firstName + " " +
+    chat.userId     = req.session.userIndentity._id;
+    chat.userName   = req.session.userIndentity.name.firstName + " " +
         req.session.userIndentity.name.secondName;
     chat.opponentId = req.query.id;
+    chat.img        = req.session.userIndentity.img;
 
     connections.push(chat);
 
@@ -104,11 +105,12 @@ exports.respondConnect = async function(socketIo){
         date  = '';
 
     chat = connections[connections.length-1];
-    connections[connections.length-1]           = socketIo;
-    connections[connections.length-1].userId    = chat.userId;
-    connections[connections.length-1].userName  = chat.userName;
-    connections[connections.length-1].chatId    = chat._id;
-    connections[connections.length-1].opponentId= chat.opponentId;
+    connections[connections.length-1]            = socketIo;
+    connections[connections.length-1].userId     = chat.userId;
+    connections[connections.length-1].userName   = chat.userName;
+    connections[connections.length-1].chatId     = chat._id;
+    connections[connections.length-1].opponentId = chat.opponentId;
+    connections[connections.length-1].img        = chat.img;
 
     socketIo.join(chat._id);
     socketIo.on('chat message', function(message){
@@ -121,6 +123,7 @@ exports.respondConnect = async function(socketIo){
            userName: chat.userName + "",
            userId  : connections[connections.indexOf(socketIo)].userId,
            chatId  : chat._id,
+           img     : chat.img,
         };
         if(data.message != ""){
             saveMessage(data, socketIo);

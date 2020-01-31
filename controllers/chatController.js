@@ -32,6 +32,9 @@ async function saveMessage(data, socketIo){
 exports.actionIndex = async function(req, res){
     let chat     = {};
     let opponent = {};
+    let queryIdOpponent = '';
+
+    queryIdOpponent = String(req.query.id);
 
     opponent = await UserModel.findOne({'_id' : req.query.id}, function(err){
         if(err){

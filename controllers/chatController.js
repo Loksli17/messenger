@@ -4,15 +4,24 @@ const DateModel = require('./../lib/date');
 
 var connections = [];
 
-async function saveMessage(data){
+async function saveMessage(data, socketIo){
     let dataToSave = {};
+    let cheaked = false;
     let chat = await ChatModel.findOne({'_id' : data.chatId});
+
+    for (let i = 0; i < connections.length; i++){
+        if (connections[connections.indexOf(socketIo)].opponentId == connections[i].userId){
+            cheaked = true;
+            break;
+        }
+    }
 
     dataToSave = {
         text    : data.message ,
         date    : data.date,
         time    : data.time,
-        userId  : data.userId
+        userId  : data.userId,
+        cheaked : cheaked,
     }
 
     chat.messages.push(dataToSave);
@@ -20,10 +29,22 @@ async function saveMessage(data){
     return;
 }
 
-
 exports.actionIndex = async function(req, res){
     let chat     = {};
     let opponent = {};
+
+    opponent = await UserModel.findOne({'_id' : req.query.id}, function(err){
+        if(err){
+            res.status(404);
+            res.render('server/404')
+            return;
+        }
+    });
+    if (opponent == null){
+        res.status(404);
+        res.render('server/404')
+        return;
+    }
 
     connections.push(req.session.userIndentity);
 
@@ -59,17 +80,18 @@ exports.actionIndex = async function(req, res){
         }
     }
 
-    chat.userId = req.session.userIndentity._id;
+    chat.userId   = req.session.userIndentity._id;
     chat.userName = req.session.userIndentity.name.firstName + " " +
         req.session.userIndentity.name.secondName;
+    chat.opponentId = req.query.id;
 
     connections.push(chat);
+
     res.render('chat/chat', {
         messages: chat.messages,
         opponent: opponent,
     });
 }
-
 
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
@@ -78,11 +100,12 @@ exports.respondConnect = async function(socketIo){
         time  = '',
         date  = '';
 
-    chat = connections[connections.length - 1];
-    connections[connections.length - 1] = socketIo;
-    connections[connections.length - 1].userId   = chat.userId;
-    connections[connections.length - 1].userName = chat.userName;
-    connections[connections.length - 1].chatId   = chat._id;
+    chat = connections[connections.length-1];
+    connections[connections.length-1]           = socketIo;
+    connections[connections.length-1].userId    = chat.userId;
+    connections[connections.length-1].userName  = chat.userName;
+    connections[connections.length-1].chatId    = chat._id;
+    connections[connections.length-1].opponentId= chat.opponentId;
 
     socketIo.join(chat._id);
     socketIo.on('chat message', function(message){
@@ -97,14 +120,14 @@ exports.respondConnect = async function(socketIo){
            chatId  : chat._id,
         };
         if(data.message != ""){
-            saveMessage(data);
+            saveMessage(data, socketIo);
             socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', data);
             socketIo.emit('chat message', data);
         }
     });
 
     socketIo.on('disconnect',function () {
-        console.log(connections[connections.indexOf(socketIo)].userName + 'disconnected');
+        console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
         connections.splice(connections.indexOf(socketIo), 1);
     })
 }

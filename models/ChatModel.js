@@ -6,7 +6,7 @@ let chatSchema = mongoose.Schema({
         text : String,
         date : String,
         time : String,
-
+        cheaked : Boolean,
     },
     users    : Object,
 })

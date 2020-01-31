@@ -20,19 +20,19 @@ socket.on('chat message', function(data){
                         + "</div><div class='mes-datetime'>"
                         + data.date + data.time
                         + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
-                        + data.time
+                        + data.img
                         + "' alt=''></div>";
         li.classList.add('currentUser');
     }else{
-        li.innerHTML = "<div class='mes-body'><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
-                        + data.time
-                        + "' alt=''></div>"
+        li.innerHTML = "<div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
+                        + data.img
+                        + "' alt=''></div><div class='mes-body'>"
                         + "<div class='mes-text'>"
                         + data.message
                         + "</div><div class='mes-datetime'>"
                         + data.date + data.time
                         + "</div></div>";
-        li.classList.add('currentUser');
+        li.classList.add('partner');
     }
 
     messages.append(li);

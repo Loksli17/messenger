@@ -13,11 +13,11 @@
         </div>
     </div>
 
-    <div class="messeges">
-        <ul class="messeges-cont">
+    <div class="messages">
+        <ul class="messages-cont">
             {{#each messages}}
                 {{#if this.currentUser}}
-                    <li class="messege currentUser">
+                    <li class="message currentUser">
                         <div class="mes-body">
                             <div class="mes-text">
                                 {{this.text}}
@@ -31,7 +31,7 @@
                         </div>
                     </li>
                 {{else}}
-                    <li class="messege partner">
+                    <li class="message partner">
                         <div class="mes-user-img">
                             <img src="/img/user-photo/{{this.img}}" width="50" height="50" alt="">
                         </div>
@@ -49,8 +49,8 @@
         </ul>
     </div>
 
-    <form class="messege-form" action="">
-        <input id="messege-input" autocomplete="off"/>
+    <form class="message-form" action="">
+        <input id="message-input" autocomplete="off"/>
         <button>
             <img width="30" src="/img/chat/right-arrow.svg"></img>
         </button>

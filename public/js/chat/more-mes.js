@@ -1,6 +1,11 @@
-window.addEventListener('scroll', receiveMes, true);
+let messagesWrap = document.querySelector('.messages');
+messagesWrap.addEventListener('scroll', receiveMes, true);
 
 function receiveMes(e){
-    let curPos = window.pageYOffset;
-    console.log(window);
+    let currentPosition = e.currentTarget.scrollTop;
+
+    if(!currentPosition){
+        //ajax query
+        let xhr = new XMLHttpRequest();
+    }
 }

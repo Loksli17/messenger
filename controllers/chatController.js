@@ -57,7 +57,7 @@ exports.actionIndex = async function(req, res){
         {["users." + req.query.id] : queryIdOpponent}
     ]});
 
-    chat.messages = chat.messages.slice(chat.messages.length - countMessage, chat.messages.length);
+    // chat.messages = chat.messages.slice(chat.messages.length - countMessage, chat.messages.length);
 
     if(chat == null){
         chat = new ChatModel({
@@ -140,4 +140,8 @@ exports.respondConnect = async function(socketIo){
         console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
         connections.splice(connections.indexOf(socketIo), 1);
     })
+}
+
+exports.moreMessages = (req, res) => {
+
 }

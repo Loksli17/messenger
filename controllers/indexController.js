@@ -6,7 +6,7 @@ const UserModel = require('./../models/UserModel');
 
 exports.actionIndex = async (req, res) => {
 
-    let userChats       = await ChatModel.find({['users.' + req.session.userIndentity._id]: req.session.userIndentity._id}).limit(3),
+    let userChats       = await ChatModel.find({['users.' + req.session.userIndentity._id]: req.session.userIndentity._id}).sort('').limit(3),
         countActiveChat = 0;
 
     if(!userChats.length){
@@ -57,6 +57,6 @@ exports.actionIndex = async (req, res) => {
 };
 
 
-exports.moreMessege = async (req, res) => {
-    
+exports.moreChat = async (req, res) => {
+
 }

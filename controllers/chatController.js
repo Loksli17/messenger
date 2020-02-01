@@ -4,6 +4,7 @@ const DateModel = require('./../lib/date');
 
 var connections = [];
 
+
 async function saveMessage(data, socketIo){
     let dataToSave = {};
     let cheaked = false;
@@ -17,11 +18,11 @@ async function saveMessage(data, socketIo){
     }
 
     dataToSave = {
-        text    : data.message ,
-        date    : data.date,
-        time    : data.time,
-        userId  : data.userId,
-        cheaked : cheaked,
+        text   : data.message ,
+        date   : data.date,
+        time   : data.time,
+        userId : data.userId,
+        cheaked: cheaked,
     }
 
     chat.messages.push(dataToSave);
@@ -29,7 +30,8 @@ async function saveMessage(data, socketIo){
     return;
 }
 
-exports.actionIndex = async function(req, res){
+
+exports.actionIndex = async (req, res) => {
     let chat            = {},
         opponent        = {},
         queryIdOpponent = '',
@@ -142,6 +144,12 @@ exports.respondConnect = async function(socketIo){
     })
 }
 
+
 exports.moreMessages = (req, res) => {
+
+}
+
+
+exports.uploadFile = (req, res) => {
 
 }

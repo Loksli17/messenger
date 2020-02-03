@@ -30,17 +30,10 @@ async function saveMessage(data, socketIo){
 }
 
 exports.actionIndex = async function(req, res){
-<<<<<<< HEAD
-    let chat     = {};
-    let opponent = {};
-    let queryIdOpponent = '';
-    let uncheackedMessages  = [];
-=======
     let chat            = {},
         opponent        = {},
         queryIdOpponent = '',
         countMessage    = 20;
->>>>>>> 677d3ce19758b65403a1e8c055a3adb401847b41
 
     queryIdOpponent = String(req.query.id);
 
@@ -77,30 +70,14 @@ exports.actionIndex = async function(req, res){
         });
       await chat.save();
   }else {
-      // uncheackedMessages = await ChatModel.update({$and: [
-      //     {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
-      //     {["users." + req.query.id] : queryIdOpponent},
-      //     {messages : {$elemMatch : {$and: [{userId :queryIdOpponent}, {checked : false}]}}},
-      // ]},{
-      //     $set : {'messages.$[].checked' : true}
-      // });
-      uncheackedMessages = await ChatModel.aggregate()
-            .match({$and: [
-                {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
-                {["users." + req.query.id] : queryIdOpponent},
-            ]})
-            .project({
-                messages : {
-                    $filter : {
-                        input : "$messages",
-                        as    : "message",
-                        cond : {$and : [
-                            {$eq: ['$$message.checked' , false]},
-                            {$eq: ['$$message.userId'  , queryIdOpponent]}
-                        ]}
-                    }
-                }
-            })
+      uncheackedMessages = await ChatModel.update({$and: [
+          {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
+          {["users." + req.query.id] : queryIdOpponent},
+          {messages : {$elemMatch : {$and: [{userId :queryIdOpponent}, {checked : false}]}}},
+      ]},{
+          $set : {'messages.$[].checked' : true}
+      });
+      
 
       console.log(uncheackedMessages);
   }

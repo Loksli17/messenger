@@ -6,12 +6,12 @@ const UserModel = require('./../models/UserModel');
 
 exports.actionIndex = async (req, res) => {
 
-    //let userChats       = await ChatModel.find({['users.' + req.session.userIndentity._id]: req.session.userIndentity._id}).sort('').limit(3),
     let userChats = [],
         countActiveChat = 0;
 
     userChats = await ChatModel.aggregate()
         .match({["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)} )
+
         .project({
             users   :  '$users',
             lastMes :  { $slice  : ['$messages', -1]},
@@ -61,13 +61,9 @@ exports.actionIndex = async (req, res) => {
     console.log(userChats.length);
 
     if(userChats.length > 1){
-        userChats.sort((a, b) => {
-            let dateA = new Date(a.lastMes.date + 'T' + a.lastMes.time),
-                dateB = new Date(b.lastMes.date + 'T' + b.lastMes.time);
-
-            console.log(a.lastMes.date, dateA);
-            return dateB - dateA;
-        });
+        userChats.sort(function(a, b){
+             return new Date(b.lastMes.dateTime) - new Date(a.lastMes.dateTime);
+        })
     }
 
 

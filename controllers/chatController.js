@@ -30,19 +30,12 @@ async function saveMessage(data, socketIo){
 }
 
 exports.actionIndex = async function(req, res){
-<<<<<<< HEAD
-    let chat            = {},
-        opponent        = {},
-        queryIdOpponent = '',
-        countMessage    = 20;
-=======
 
     let chat                = {};
     let opponent            = {};
     let queryIdOpponent     = '';
     let uncheackedMessages  = [],
         countMessage        = 20;
->>>>>>> 5d41c9b7b22bfb1be37166a3186639cb45e384af
 
     queryIdOpponent = String(req.query.id);
 
@@ -83,7 +76,7 @@ exports.actionIndex = async function(req, res){
       ]},{
           $set : {'messages.$[].checked' : true}
       });
-      
+
 
       console.log(uncheackedMessages);
   }

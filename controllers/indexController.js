@@ -69,7 +69,7 @@ exports.actionIndex = async (req, res) => {
             return dateB - dateA;
         });
     }
-    console.log(userChats);
+
 
     res.render('index', {
         error: countActiveChat ? false : true,

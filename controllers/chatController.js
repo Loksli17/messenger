@@ -4,6 +4,7 @@ const DateModel = require('./../lib/date');
 
 var connections = [];
 
+
 async function saveMessage(data, socketIo){
     let dataToSave = {};
     let checked = false;
@@ -19,7 +20,6 @@ async function saveMessage(data, socketIo){
     dataToSave = {
         text    : data.message ,
         dateTime: data.date + 'T' + data.time,
-
         userId  : data.userId,
         checked : checked,
     }
@@ -30,10 +30,19 @@ async function saveMessage(data, socketIo){
 }
 
 exports.actionIndex = async function(req, res){
+<<<<<<< HEAD
     let chat            = {},
         opponent        = {},
         queryIdOpponent = '',
         countMessage    = 20;
+=======
+
+    let chat                = {};
+    let opponent            = {};
+    let queryIdOpponent     = '';
+    let uncheackedMessages  = [],
+        countMessage        = 20;
+>>>>>>> 5d41c9b7b22bfb1be37166a3186639cb45e384af
 
     queryIdOpponent = String(req.query.id);
 
@@ -49,9 +58,6 @@ exports.actionIndex = async function(req, res){
         res.render('server/404')
         return;
     }
-
-
-    // connections.push(req.session.userIndentity);
 
     chat = await ChatModel.findOne({$and: [
         {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
@@ -86,21 +92,22 @@ exports.actionIndex = async function(req, res){
         opponent = await UserModel.findOne({'_id' : req.query.id});
         for(let i = 0; i < chat.messages.length; i++){
             if(chat.messages[i].userId == req.session.userIndentity._id){
-                chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " +
-                    req.session.userIndentity.name.secondName;
+                chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " + req.session.userIndentity.name.secondName;
                 chat.messages[i].currentUser = true;
                 chat.messages[i].img = req.session.userIndentity.img;
             }else{
-                chat.messages[i].userName = opponent.name.firstName + " " +
-                    opponent.name.secondName;
+                chat.messages[i].userName = opponent.name.firstName + " " + opponent.name.secondName;
                 chat.messages[i].img = opponent.img;
             }
+            //дата для сообщения
+            var date = new Date(chat.messages[i].dateTime);
+            chat.messages[i].date = DateModel.formatView(date);
+            chat.messages[i].time = DateModel.formatDbTime(date);
         }
     }
 
     chat.userId     = req.session.userIndentity._id;
-    chat.userName   = req.session.userIndentity.name.firstName + " " +
-        req.session.userIndentity.name.secondName;
+    chat.userName   = req.session.userIndentity.name.firstName + " " + req.session.userIndentity.name.secondName;
     chat.opponentId = req.query.id;
     chat.img        = req.session.userIndentity.img;
 
@@ -113,6 +120,7 @@ exports.actionIndex = async function(req, res){
     });
 }
 
+
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
         data  = {},
@@ -120,13 +128,13 @@ exports.respondConnect = async function(socketIo){
         time  = '',
         date  = '';
 
-    chat = connections[connections.length-1];
-    connections[connections.length-1]            = socketIo;
-    connections[connections.length-1].userId     = chat.userId;
-    connections[connections.length-1].userName   = chat.userName;
-    connections[connections.length-1].chatId     = chat._id;
-    connections[connections.length-1].opponentId = chat.opponentId;
-    connections[connections.length-1].img        = chat.img;
+    chat = connections[connections.length - 1];
+    connections[connections.length - 1]            = socketIo;
+    connections[connections.length - 1].userId     = chat.userId;
+    connections[connections.length - 1].userName   = chat.userName;
+    connections[connections.length - 1].chatId     = chat._id;
+    connections[connections.length - 1].opponentId = chat.opponentId;
+    connections[connections.length - 1].img        = chat.img;
 
     socketIo.join(chat._id);
     socketIo.on('chat message', function(message){
@@ -141,10 +149,14 @@ exports.respondConnect = async function(socketIo){
            chatId  : chat._id,
            img     : chat.img,
         };
+
+        let socketData = Object.assign({}, data);
+        socketData.date = DateModel.formatView(today);
+
         if(data.message != ""){
             saveMessage(data, socketIo);
-            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', data);
-            socketIo.emit('chat message', data);
+            socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', socketData);
+            socketIo.emit('chat message', socketData);
         }
     });
 
@@ -154,6 +166,27 @@ exports.respondConnect = async function(socketIo){
     })
 }
 
-exports.moreMessages = (req, res) => {
+
+exports.uploadFile = (req, res) => {
+
+}
+
+
+exports.moreMessages = async (req, res) => {
+    if(!req.xhr){
+        res.render('server/error', {
+            layout : null,
+            err    : 500,
+            message: "Iternal Server Error",
+        });
+        return;
+    }
+
+    let post = req.body;
+
+    console.log(req.body);
+    res.status(200);
+    res.send({});
+    return;
 
 }

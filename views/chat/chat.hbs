@@ -1,4 +1,5 @@
- <link rel="stylesheet" href="/css/chat/chat.css">
+<link rel="stylesheet" href="/css/chat/chat.css">
+<link rel="stylesheet" href="/css/chat/upload-file.css">
 
 <div class="wrap">
     <div class="opponent">
@@ -14,6 +15,12 @@
     </div>
 
     <div class="messages">
+        <div class="file-info">
+            <span>Отпустите файл для загрузки</span>
+        </div>
+        <div class="file-form">
+
+        </div>
         <ul class="messages-cont">
             {{#each messages}}
                 {{#if this.currentUser}}
@@ -58,6 +65,7 @@
 </div>
 
 <script src="/js/chat/more-mes.js" charset="utf-8"></script>
+<script src="/js/chat/file-upload.js" charset="utf-8"></script>
 <script src="/js/chat/auto-scroll.js" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>

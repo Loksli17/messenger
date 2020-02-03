@@ -46,8 +46,9 @@ exports.actionUploadFile = async (req, res) => {
         res.render('server/error', {
             layout : null,
             err    : 500,
-            messege: "Iternal Server Error",
+            message: "Iternal Server Error",
         });
+        return;
     }
 
     let file = req.file;

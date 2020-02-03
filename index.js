@@ -104,7 +104,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/settings', settingsRouter);
-app.use('/chat',chatRouter);
+app.use('/chat', chatRouter);
 
 //soft
 app.use(function(req, res){

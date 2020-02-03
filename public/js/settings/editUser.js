@@ -1,10 +1,10 @@
 function upload(file){
-    let ouputZone    = document.getElementById('output-zone'),
-        progress     = document.getElementById('progress'),
-        loadInfo     = document.getElementsByClassName('load-info')[0],
-        idUser       = document.getElementsByName('_id')[0];
-        formData     = new FormData();
-        ajax         = new XMLHttpRequest();
+    let ouputZone = document.getElementById('output-zone'),
+        progress  = document.getElementById('progress'),
+        loadInfo  = document.getElementsByClassName('load-info')[0],
+        idUser    = document.getElementsByName('_id')[0];
+        formData  = new FormData();
+        ajax      = new XMLHttpRequest();
 
     ajax.upload.onprogress = (e) => {
         loadInfo.style.display = "flex";
@@ -26,7 +26,10 @@ function upload(file){
 
     formData.append('file', file);
     formData.append('_id', idUser.value);
+
     ajax.open("POST", "/settings/upload-file");
+    xhr.setRequestHeader('Accept', 'application/json, text/javascript, */*, q=0.01');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     ajax.send(formData);
 }
 

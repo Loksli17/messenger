@@ -103,6 +103,7 @@ exports.actionIndex = async (req, res) => {
     });
 }
 
+
 exports.respondConnect = async function(socketIo){
     let today = new Date(),
         data  = {},
@@ -145,11 +146,26 @@ exports.respondConnect = async function(socketIo){
 }
 
 
-exports.moreMessages = (req, res) => {
+exports.uploadFile = (req, res) => {
 
 }
 
+exports.moreMessages = async (req, res) => {
 
-exports.uploadFile = (req, res) => {
+    if(!req.xhr){
+        res.render('server/error', {
+            layout : null,
+            err    : 500,
+            message: "Iternal Server Error",
+        });
+        return;
+    }
+
+    let post = req.body;
+
+    console.log(req.body);
+    res.status(200);
+    res.send({});
+    return;
 
 }

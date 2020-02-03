@@ -16,6 +16,6 @@ const upload = multer({storage: storageConfig});
 
 //actions
 settingsRouter.all('/edit-user', settingsController.actionEditUser);
-settingsRouter.post('/upload-file', upload.single('file') ,settingsController.actionUploadFile);
+settingsRouter.post('/upload-file', upload.single('file'), settingsController.actionUploadFile);
 
 module.exports = settingsRouter;

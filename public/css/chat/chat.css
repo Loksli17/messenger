@@ -26,23 +26,23 @@
 }
 
 
-.messeges{
+.messages{
     padding: 0px 60px;
     overflow-y: auto;
 }
 
-.messege{
+.message{
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
     margin-top: 20px;
 }
 
-.messege:last-child{
+.message:last-child{
     margin-bottom: 20px;
 }
 
-.messege img{
+.message img{
     border-radius: 5px;
 }
 
@@ -107,7 +107,7 @@
 }
 
 
-#messege-input{
+#message-input{
     width: 100%;
     background: #dedede;
     height: 100%;
@@ -115,13 +115,13 @@
     padding: 0px 20px;
 }
 
-.messege-form button{
+.message-form button{
     position: fixed;
     bottom: 7px;
     right: 10px;
     border: 0;
 }
 
-#messege-input:focus{
+#message-input:focus{
     outline: 0px;
 }

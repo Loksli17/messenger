@@ -9,10 +9,10 @@ function sendMes(e){
 
 
 socket.on('chat message', function(data){
-    let messages = document.querySelector('.messeges-cont'),
+    let messages = document.querySelector('.messages-cont'),
         li       = document.createElement('li');
 
-    li.classList.add('messege');
+    li.classList.add('message');
 
     if(data.userId == currentUserId){
         li.innerHTML = "<div class='mes-body'><div class='mes-text'>"
@@ -36,9 +36,13 @@ socket.on('chat message', function(data){
     }
 
     messages.append(li);
+
+    let messagesScroll = document.querySelectorAll('.messages li');
+    let lastMes = messagesScroll[messagesScroll.length - 1];
+    lastMes.scrollIntoView(true);
 });
 
 
 
-let form  = document.querySelector('.messege-form');
+let form = document.querySelector('.message-form');
 form.addEventListener('submit', sendMes, false);

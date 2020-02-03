@@ -1,3 +1,3 @@
-let messeges = document.querySelectorAll('.messeges li');
-let lastMes = messeges[messeges.length - 1];
+let messages = document.querySelectorAll('.messages li');
+let lastMes = messages[messages.length - 1];
 lastMes.scrollIntoView(true);

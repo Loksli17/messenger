@@ -30,10 +30,17 @@ async function saveMessage(data, socketIo){
 }
 
 exports.actionIndex = async function(req, res){
+<<<<<<< HEAD
     let chat     = {};
     let opponent = {};
     let queryIdOpponent = '';
     let uncheackedMessages  = [];
+=======
+    let chat            = {},
+        opponent        = {},
+        queryIdOpponent = '',
+        countMessage    = 20;
+>>>>>>> 677d3ce19758b65403a1e8c055a3adb401847b41
 
     queryIdOpponent = String(req.query.id);
 
@@ -57,6 +64,8 @@ exports.actionIndex = async function(req, res){
         {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
         {["users." + req.query.id] : queryIdOpponent}
     ]});
+
+    // chat.messages = chat.messages.slice(chat.messages.length - countMessage, chat.messages.length);
 
     if(chat == null){
         chat = new ChatModel({
@@ -121,8 +130,9 @@ exports.actionIndex = async function(req, res){
     connections.push(chat);
 
     res.render('chat/chat', {
-        messages: chat.messages,
-        opponent: opponent,
+        messages    : chat.messages,
+        opponent    : opponent,
+        countMessage: countMessage,
     });
 }
 
@@ -165,4 +175,8 @@ exports.respondConnect = async function(socketIo){
         console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
         connections.splice(connections.indexOf(socketIo), 1);
     })
+}
+
+exports.moreMessages = (req, res) => {
+
 }

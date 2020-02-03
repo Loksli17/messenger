@@ -18,7 +18,7 @@ socket.on('chat message', function(data){
         li.innerHTML = "<div class='mes-body'><div class='mes-text'>"
                         + data.message
                         + "</div><div class='mes-datetime'>"
-                        + data.date + data.time
+                        + data.date + ' ' + data.time
                         + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
                         + data.img
                         + "' alt=''></div>";
@@ -30,7 +30,7 @@ socket.on('chat message', function(data){
                         + "<div class='mes-text'>"
                         + data.message
                         + "</div><div class='mes-datetime'>"
-                        + data.date + data.time
+                        + data.date + ' ' +  data.time
                         + "</div></div>";
         li.classList.add('partner');
     }

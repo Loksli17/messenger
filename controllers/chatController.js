@@ -7,22 +7,22 @@ var connections = [];
 
 async function saveMessage(data, socketIo){
     let dataToSave = {};
-    let cheaked = false;
+    let checked = false;
     let chat = await ChatModel.findOne({'_id' : data.chatId});
 
     for (let i = 0; i < connections.length; i++){
         if (connections[connections.indexOf(socketIo)].opponentId == connections[i].userId){
-            cheaked = true;
+            checked = true;
             break;
         }
     }
 
     dataToSave = {
-        text   : data.message ,
-        date   : data.date,
-        time   : data.time,
-        userId : data.userId,
-        cheaked: cheaked,
+        text    : data.message ,
+        dateTime: data.date + 'T' + data.time,
+
+        userId  : data.userId,
+        checked : checked,
     }
 
     chat.messages.push(dataToSave);
@@ -30,12 +30,13 @@ async function saveMessage(data, socketIo){
     return;
 }
 
+exports.actionIndex = async function(req, res){
 
-exports.actionIndex = async (req, res) => {
-    let chat            = {},
-        opponent        = {},
-        queryIdOpponent = '',
-        countMessage    = 20;
+    let chat                = {};
+    let opponent            = {};
+    let queryIdOpponent     = '';
+    let uncheackedMessages  = [],
+        countMessage        = 20;
 
     queryIdOpponent = String(req.query.id);
 
@@ -52,10 +53,11 @@ exports.actionIndex = async (req, res) => {
         return;
     }
 
-    connections.push(req.session.userIndentity);
+
+    // connections.push(req.session.userIndentity);
 
     chat = await ChatModel.findOne({$and: [
-        {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
+        {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
         {["users." + req.query.id] : queryIdOpponent}
     ]});
 
@@ -65,12 +67,39 @@ exports.actionIndex = async (req, res) => {
         chat = new ChatModel({
             messages : [],
             users    : {
-                [req.session.userIndentity._id] : req.session.userIndentity._id,
+                [req.session.userIndentity._id] : String(req.session.userIndentity._id),
                 [req.query.id]                  : queryIdOpponent,
             },
         });
       await chat.save();
-    }
+  }else {
+      // uncheackedMessages = await ChatModel.update({$and: [
+      //     {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
+      //     {["users." + req.query.id] : queryIdOpponent},
+      //     {messages : {$elemMatch : {$and: [{userId :queryIdOpponent}, {checked : false}]}}},
+      // ]},{
+      //     $set : {'messages.$[].checked' : true}
+      // });
+      uncheackedMessages = await ChatModel.aggregate()
+            .match({$and: [
+                {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
+                {["users." + req.query.id] : queryIdOpponent},
+            ]})
+            .project({
+                messages : {
+                    $filter : {
+                        input : "$messages",
+                        as    : "message",
+                        cond : {$and : [
+                            {$eq: ['$$message.checked' , false]},
+                            {$eq: ['$$message.userId'  , queryIdOpponent]}
+                        ]}
+                    }
+                }
+            })
+
+      console.log(uncheackedMessages);
+  }
 
     if(chat.messages.length != 0){
         opponent = await UserModel.findOne({'_id' : req.query.id});

@@ -126,7 +126,6 @@ app.use(function(err, req, res, next){
     });
 });
 
-
 //listen
 server.listen(app.get('port'), function(){
     console.log('Application are working on port: ' + config.app.port + '. Press Crtl+C for closing');

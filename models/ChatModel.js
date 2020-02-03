@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 let chatSchema = mongoose.Schema({
     messages : {
-        type : Array,
-        text : String,
-        date : String,
-        time : String,
-        cheaked : Boolean,
+        type     : Array,
+        text     : String,
+        dateTime : String,
+        checked  : Boolean,
     },
     users    : Object,
 })

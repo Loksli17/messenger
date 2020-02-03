@@ -22,10 +22,10 @@ function receiveMes(e){
         xhr.send(data);
 
         xhr.onload = xhr.onerror = function(){
-            (this.status == 200){
+            if(this.status == 200){
                 console.log(this.response);
             }
         }
-        
+
     }
 }

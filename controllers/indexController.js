@@ -66,7 +66,6 @@ exports.actionIndex = async (req, res) => {
         })
     }
 
-
     res.render('index', {
         error: countActiveChat ? false : true,
         chats: userChats,

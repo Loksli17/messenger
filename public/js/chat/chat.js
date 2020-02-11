@@ -22,6 +22,37 @@ socket.on('chat message', function(data){
                         + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
                         + data.img
                         + "' alt=''></div>";
+
+        if(data.file != undefined){
+            if(data.file.type == 'img'){
+                li.innerHTML = li.innerHTML = "<div class='mes-body'><div class='mes-text'>"
+                                + data.message
+                                + "</div>"
+                                + "<img src='/message/" + data.file.name  + "'>"
+                                + "<div class='mes-datetime'>"
+                                + data.date + ' ' + data.time
+                                + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
+                                + data.img
+                                + "' alt=''></div>";
+            }else if(data.file.type == 'video'){
+
+            }else if(data.file.type == 'text'){
+                li.innerHTML = li.innerHTML = "<div class='mes-body'><div class='mes-text'>"
+                                + data.message
+                                + "</div>"
+                                + "<div class='file-text-wrap'>"
+                                + "<img class='file-name' src='/img/chat/file.svg' width='70'>"
+                                + "<div class='file-name'>"
+                                +  "<a href='/message/" + data.file.name + "' </a>"
+                                + "</div>"
+                                + "</div>"
+                                + "<div class='mes-datetime'>"
+                                + data.date + ' ' + data.time
+                                + "</div></div><div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"
+                                + data.img
+                                + "' alt=''></div>";
+            }
+        }
         li.classList.add('currentUser');
     }else{
         li.innerHTML = "<div class='mes-user-img'><img width='50' height='50' src='/img/user-photo/"

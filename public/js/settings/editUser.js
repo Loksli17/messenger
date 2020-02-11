@@ -28,8 +28,8 @@ function upload(file){
     formData.append('_id', idUser.value);
 
     ajax.open("POST", "/settings/upload-file");
-    xhr.setRequestHeader('Accept', 'application/json, text/javascript, */*, q=0.01');
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    ajax.setRequestHeader('Accept', 'application/json, text/javascript, */*, q=0.01');
+    ajax.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     ajax.send(formData);
 }
 
@@ -37,6 +37,7 @@ function upload(file){
 function dropImage(e){
     e.stopPropagation();
     e.preventDefault();
+
     let ouputZone = document.getElementById('output-zone'),
         img       = document.getElementById('img'),
         file      = e.dataTransfer.files[0];
@@ -64,7 +65,6 @@ function dropImage(e){
 		}
 	})(file);
     reader.readAsDataURL(file);
-
 }
 
 

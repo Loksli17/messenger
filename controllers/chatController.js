@@ -24,10 +24,20 @@ async function saveMessage(data, socketIo){
         checked : checked,
     }
 
+    if(typeof data.file == 'object'){
+        dataToSave['file'] = {
+            type: '',
+            name: '',
+        };
+        dataToSave.file.type = data.file.type;
+        dataToSave.file.name = data.file.name;
+    }
+
     chat.messages.push(dataToSave);
     await chat.save();
     return;
 }
+
 
 exports.actionIndex = async function(req, res){
 
@@ -103,15 +113,33 @@ exports.actionIndex = async function(req, res){
             if(chat.messages[i].userId == req.session.userIndentity._id){
                 chat.messages[i].userName =  req.session.userIndentity.name.firstName + " " + req.session.userIndentity.name.secondName;
                 chat.messages[i].currentUser = true;
-                chat.messages[i].img = req.session.userIndentity.img;
+                chat.messages[i].imgUser = req.session.userIndentity.img;
             }else{
                 chat.messages[i].userName = opponent.name.firstName + " " + opponent.name.secondName;
-                chat.messages[i].img = opponent.img;
+                chat.messages[i].imgUser = opponent.img;
             }
             //дата для сообщения
             var date = new Date(chat.messages[i].dateTime);
             chat.messages[i].date = DateModel.formatView(date);
             chat.messages[i].time = DateModel.formatDbTime(date);
+            //init type
+            if(chat.messages[i].file != undefined){
+                switch(chat.messages[i].file.type){
+                    case 'video':
+                        chat.messages[i].video = chat.messages[i].file.name;
+                        break;
+                    case 'img':
+                        chat.messages[i].img = chat.messages[i].file.name;
+                        break;
+                    case 'text':
+                        chat.messages[i].pdf = chat.messages[i].file.name;
+                        break;
+                }
+                chat.messages[i].file = true;
+            }else{
+                chat.messages[i].file = false;
+            }
+            console.log(chat.messages[i]);
         }
     }
 
@@ -146,7 +174,7 @@ exports.respondConnect = async function(socketIo){
     connections[connections.length - 1].img        = chat.img;
 
     socketIo.join(chat._id);
-    socketIo.on('chat message', function(message){
+    socketIo.on('chat message', function(message, file){
         today = new Date();
 
         data = {
@@ -159,24 +187,55 @@ exports.respondConnect = async function(socketIo){
            img     : chat.img,
         };
 
+        if(typeof file == 'object'){
+            data['file'] = {
+                type: '',
+                name: '',
+            };
+            data.file.type = file.type;
+            data.file.name = file.name;
+        }
+
         let socketData = Object.assign({}, data);
         socketData.date = DateModel.formatView(today);
 
-        if(data.message != ""){
+        if(data.message != "" || data.file != undefined){
             saveMessage(data, socketIo);
             socketIo.in(connections[connections.indexOf(socketIo)].chatId).emit('chat message', socketData);
             socketIo.emit('chat message', socketData);
         }
     });
 
-    socketIo.on('disconnect',function () {
+    socketIo.on('disconnect', function(){
         console.log(connections[connections.indexOf(socketIo)].userName + ' disconnected');
         connections.splice(connections.indexOf(socketIo), 1);
     })
 }
 
 
-exports.uploadFile = (req, res) => {
+exports.uploadFile = async (req, res) => {
+    if(!req.xhr){
+        res.render('server/error', {
+            layout : null,
+            err    : 500,
+            message: "Iternal Server Error",
+        });
+        return;
+    }
+
+    let file = req.file,
+        post = req.body;
+
+    if(file.size > 8 * 1024 * 1024 * 200){
+        res.status(500);
+        res.send({err: 'size'});
+        return;
+    }
+
+    res.send({
+        fileName: file.filename,
+    });
+    return;
 
 }
 

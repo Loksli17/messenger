@@ -25,31 +25,17 @@
             {{#each messages}}
                 {{#if this.currentUser}}
                     <li class="message currentUser">
-                        <div class="mes-body">
-                            <div class="mes-text">
-                                {{this.text}}
-                            </div>
-                            <div class="mes-datetime">
-                                {{this.date}} {{this.time}}
-                            </div>
-                        </div>
+                        {{>chat-media}}
                         <div class="mes-user-img">
-                            <img width="50" height="50" src="/img/user-photo/{{this.img}}" alt="">
+                            <img width="50" height="50" src="/img/user-photo/{{this.imgUser}}" alt="">
                         </div>
                     </li>
                 {{else}}
                     <li class="message partner">
                         <div class="mes-user-img">
-                            <img src="/img/user-photo/{{this.img}}" width="50" height="50" alt="">
+                            <img src="/img/user-photo/{{this.imgUser}}" width="50" height="50" alt="">
                         </div>
-                        <div class="mes-body">
-                            <div class="mes-text">
-                                {{this.text}}
-                            </div>
-                            <div class="mes-datetime">
-                                {{this.date}} {{this.time}}
-                            </div>
-                        </div>
+                        {{>chat-media}}
                     </li>
                 {{/if}}
             {{/each}}
@@ -64,12 +50,13 @@
     </form>
 </div>
 
-<script src="/js/chat/more-mes.js" charset="utf-8"></script>
-<script src="/js/chat/file-upload.js" charset="utf-8"></script>
-<script src="/js/chat/auto-scroll.js" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var currentUserId = "{{{user._id}}}",
         countMessage  = {{countMessage}};
 </script>
 <script src="/js/chat/chat.js" charset="utf-8"></script>
+<script src="/js/chat/more-mes.js" charset="utf-8"></script>
+<script src="/js/chat/file-upload.js" charset="utf-8"></script>
+<script src="/js/chat/auto-scroll.js" charset="utf-8"></script>
+<script src="/js/afterglow.min.js"></script>

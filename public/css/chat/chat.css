@@ -125,3 +125,18 @@
 #message-input:focus{
     outline: 0px;
 }
+
+.video-wrap{
+    width: 500px;
+    height: 230px;
+}
+
+
+.file-text-wrap{
+    display: flex;
+    align-items: center;
+}
+
+.file-text-wrap > .file-img{
+    margin-right: 20px;
+}

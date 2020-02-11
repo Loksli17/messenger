@@ -1,0 +1,59 @@
+{{#if this.file}}
+{{else}}
+<div class="mes-body">
+    <div class="mes-text">
+        {{this.text}}
+    </div>
+    <div class="mes-datetime">
+        {{this.date}} {{this.time}}
+    </div>
+</div>
+{{/if}}
+
+
+{{#if this.video}}
+<div class="mes-body">
+    <div class="mes-text">
+        {{this.text}}
+    </div>
+    <div class="video-wrap">
+        <video class="afterglow" id="myvideo" width="1920" height="850">
+            <source type="video/mp4" src="/message/{{this.video}}">
+        </video>
+    </div>
+    <div class="mes-datetime">
+        {{this.date}} {{this.time}}
+    </div>
+</div>
+{{/if}}
+
+
+{{#if this.img}}
+<div class="mes-body">
+    <div class="mes-text">
+        {{this.text}}
+    </div>
+    <img src="/message/{{this.img}}" alt="">
+    <div class="mes-datetime">
+        {{this.date}} {{this.time}}
+    </div>
+</div>
+{{/if}}
+
+
+{{#if this.pdf}}
+<div class="mes-body">
+    <div class="mes-text">
+        {{this.text}}
+    </div>
+    <div class="file-text-wrap">
+        <img class="file-img" src="/img/chat/file.svg" width="70" alt="">
+        <div class="file-name">
+            <a href="/message/{{this.pdf}}">{{this.pdf}}</a>
+        </div>
+    </div>
+    <div class="mes-datetime">
+        {{this.date}} {{this.time}}
+    </div>
+</div>
+{{/if}}

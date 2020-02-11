@@ -79,30 +79,14 @@ exports.actionIndex = async function(req, res){
         });
       await chat.save();
   }else {
-      // uncheackedMessages = await ChatModel.update({$and: [
-      //     {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
-      //     {["users." + req.query.id] : queryIdOpponent},
-      //     {messages : {$elemMatch : {$and: [{userId :queryIdOpponent}, {checked : false}]}}},
-      // ]},{
-      //     $set : {'messages.$[].checked' : true}
-      // });
-      uncheackedMessages = await ChatModel.aggregate()
-            .match({$and: [
-                {["users." + req.session.userIndentity._id] : String(req.session.userIndentity._id)},
-                {["users." + req.query.id] : queryIdOpponent},
-            ]})
-            .project({
-                messages : {
-                    $filter : {
-                        input : "$messages",
-                        as    : "message",
-                        cond : {$and : [
-                            {$eq: ['$$message.checked' , false]},
-                            {$eq: ['$$message.userId'  , queryIdOpponent]}
-                        ]}
-                    }
-                }
-            })
+      uncheackedMessages = await ChatModel.update({$and: [
+          {["users." + req.session.userIndentity._id] : req.session.userIndentity._id},
+          {["users." + req.query.id] : queryIdOpponent},
+          {messages : {$elemMatch : {$and: [{userId :queryIdOpponent}, {checked : false}]}}},
+      ]},{
+          $set : {'messages.$[].checked' : true}
+      });
+
 
       console.log(uncheackedMessages);
   }

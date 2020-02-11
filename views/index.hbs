@@ -24,7 +24,7 @@
             {{#if this.isActive}}
             <a class="chat" href="/chat?id={{this.link}}">
                 <img width="70" src="/img/user-photo/{{this.lastMes.user.img}}" alt="">
-                <span>{{this.lastMes.text}}</span>
+                <span>{{this.lastMes.text}} {{#if this.unreadedMessages}} непрочитанные сообщения {{this.unreadedMessages}} шт. {{/if}} </span>
             </a>
             {{/if}}
         {{/each}}
